@@ -1,3 +1,24 @@
-print("Deu certo!!!")
+import requests
+import pandas as pd
+from datetime import datetime
 
-print("Será que deu certo mesmo????")
+# URL da API da Coinbase para o preço spot do Bitcoin
+url = "https://api.coinbase.com/v2/prices/spot"
+
+# Requisição GET
+response = requests.get(url)
+data = response.json()
+
+# Extrair dados relevantes
+amount = float(data['data']['amount'])
+base = data['data']['base']
+currency = data['data']['currency']
+timestamp = datetime.now()
+
+# Criar DataFrame
+df = pd.DataFrame([{
+    'timestamp': timestamp,
+    'base': base,
+    'currency': currency,
+    'amount': amount
+}])
